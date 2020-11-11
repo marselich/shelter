@@ -1,0 +1,722 @@
+$width-layout: 1280px; 
+$width-wrapper: 1200px;
+$height-header: 120px;
+$height-main: 1342px;
+$height-footer: 350px;
+
+$width-layout-tablet: 768px;
+$width-layout-phone: 320px;
+
+$color-dark-l: #545454;
+$color-primary: #F1CDB3;
+$color-primary-light: #FDDCC4;
+
+$color-dark-3xl: #292929;
+$color-dark-s: #CDCDCD;
+$color-light-s: #FAFAFA;
+$color-light-xl: #FFFFFF;
+$color-dark-xl: #4C4C4C;
+$color-light-l: #F6F6F6;
+$color-dark-m: #B2B2B2;
+
+body {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.lock {
+        overflow: hidden;
+    }
+}
+
+@mixin font-settings ($family, $size, $height, $letter-spa: 0px) {
+    font-family: $family;
+    font-style: normal;
+    font-weight: normal;
+    font-size: $size;
+    line-height: $height;  
+    letter-spacing: $letter-spa;
+}
+
+@mixin typical-button () {
+    @include font-settings (Georgia, 17px, 130%, 0.06em);
+    border: none;
+    color: $color-dark-3xl;
+    background-color: $color-primary;
+    border-radius: 100px;
+    padding: 15px 45px;
+    outline: none;
+}
+
+@mixin pet-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: $color-light-s;
+    border-radius: 9px;
+    width: 270px;
+    height: 435px;
+    justify-content: space-between;
+
+    &__name {
+        @include font-settings(Georgia, 20px, 23px, 0.06em);
+        color: $color-dark-l;
+        margin: 0;
+    }
+    
+    &__button {
+        @include typical-button();
+        background-color: $color-light-s;
+        border: 2px solid $color-primary;
+        padding: 13px 43px;
+        margin-bottom: 32px;
+
+        &:hover {
+            background-color: $color-primary-light;
+            border-color: $color-primary-light;
+        }
+    }
+
+    &:hover {
+        background-color: $color-light-xl;
+    }
+}
+
+@mixin footer-info-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 234px;
+
+    &__tittle {
+        @include font-settings(Georgia, 35px, 130%, 0.06em);
+        color: $color-light-xl;
+        margin: 0;
+
+        @media (max-width: $width-layout-tablet) {
+            @include font-settings(Georgia, 25px, 130%, 0.06em);
+            width: 294px;
+            
+            & br {
+                display: none;
+            }
+        }
+    }
+}
+
+@mixin footer-info-block__element ($element, $width, $height) {
+    @include font-settings(Georgia, 20px, 115%, 0.06em);
+        color: $color-primary;
+        margin: 6px 0;
+
+        &::before {
+            content: '';
+            background: url('../../assets/icons/icon-' + $element + '.svg') no-repeat;
+            background-size: cover;
+            width: $width;
+            height: $height;
+            position: absolute; 
+            transform: translate(-60px, -5px);
+        }
+}
+
+%layout-block {
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+%wrapper-block {
+    display: flex;
+    width: $width-wrapper;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: $width-layout) {
+        flex-wrap: wrap;
+        margin-top: 30px;
+        width: $width-layout-tablet;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        width: $width-layout-phone;
+    }
+}
+
+%header-nav-i-pholder {
+    margin-left: 0;
+    padding: 0;
+    margin-right: 2.4em;
+    padding-bottom: 4px;
+    @include font-settings(Arial, 15px, 160%);
+    color: $color-dark-l;
+    text-decoration: none;
+
+    &:hover {
+        color: $color-dark-3xl;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        @include font-settings(Arial, 32px, 160%);
+        margin: 0;
+    }
+}
+
+.pet-popup {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 41, 41, 0.6);
+    z-index: 10;
+
+    &__close-btn {
+        background: url('../../assets/images/close-btn.png') no-repeat;
+        background-position: center;
+        height: 52px;
+        width: 52px;
+        border: 2px solid #F1CDB3;
+        box-sizing: border-box;
+        border-radius: 100px;
+        transform: translateX(464px);
+        outline: none;
+
+        &:hover {
+            background-color: $color-primary-light;
+        }
+
+        @media (max-width: $width-layout) {
+            transform: translateX(332px);
+        }
+
+        @media (max-width: $width-layout-tablet) {
+            transform: translateX(125px);
+        }
+    }
+
+    .popup-container {
+        display: flex;
+        width: 900px;
+        background-color: $color-light-s;
+        color: black;
+        border-radius: 9px;
+
+        &__img {
+            width: 500px;
+            border-radius: 9px;
+
+            @media (max-width: $width-layout) {
+                width: 350px;
+            }
+
+            @media (max-width: $width-layout-tablet) {
+                display: none;
+            }
+        }
+
+        @media (max-width: $width-layout) {
+            width: 630px;
+            //height: 350px;
+        }
+    
+        @media (max-width: $width-layout-tablet) {
+            width: 240px;
+            //height: 341px;
+        }
+
+        .pet-info {
+            width: 351px;
+            margin: 50px 20px 0px 29px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+            @media (max-width: $width-layout) {
+                width: 260px;
+                margin: 10px 9px 0px 11px;
+            }
+
+            @media (max-width: $width-layout-tablet) {
+                width: 220px;
+                margin: 10px;
+                text-align: justify;
+            }
+
+            &__name {
+                margin: 0;
+                margin-bottom: 10px;
+                @include font-settings(Georgia, 35px, 130%, 0.06em);
+
+                @media (max-width: $width-layout-tablet) {
+                    text-align: center;
+                }
+            }
+
+            &__type-breed {
+                margin: 0;
+                margin-bottom: 40px;
+                @include font-settings(Georgia, 20px, 115%, 0.06em);
+
+                @media (max-width: $width-layout) {
+                    margin-bottom: 20px;
+                }
+
+                @media (max-width: $width-layout-tablet) {
+                    text-align: center;
+                }
+            }
+
+            &__desc {
+                padding-bottom: 35px;
+                margin: 0;
+
+                @media (max-width: $width-layout) {
+                    @include font-settings(Georgia, 13px, 110%, 0.06em);
+                    padding-bottom: 15px;
+                    width: 261px;
+                }
+
+                @media (max-width: $width-layout-tablet) {
+                    padding-bottom: 20px;
+                    width: 100%;
+                }
+            }
+
+            .pet-info-list {
+                padding-left: 15px;
+                margin: 0;
+                @include font-settings(Georgia, 15px, 119%, 0.06em);
+
+                li {
+                    margin-bottom: 8px;
+                    list-style: none;
+
+                    &:nth-child(4) {
+                        margin-bottom: 0;
+                    }
+
+                    &::before {
+                        content: '';
+                        display: block;
+                        width: 4px;
+                        height: 4px;
+                        background-color: $color-primary;
+                        border-radius: 50%;
+                        transform: translate(-14px, 10px);
+                    }
+
+                    @media (max-width: $width-layout) {
+                        margin-bottom: 2px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.header {
+    position: fixed;
+    @extend %layout-block;
+    height: $height-header;
+    background-color: $color-light-xl;
+    z-index: 0;
+}
+
+.header-wrapper {
+    @extend %wrapper-block;
+
+    @media (max-width: $width-layout) {
+        margin: 30px 30px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        margin: 30px 55px 30px 0;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 60px;
+    user-select: none;
+
+    &__title {
+        margin: 0;
+        @include font-settings(Georgia, 32px, 110%, 0.06em);
+        color: $color-dark-l;
+    }
+
+    &__subtitle {
+        @include font-settings(Arial, 13px, 15px, 0.1em);
+        color: $color-dark-3xl !important;
+        text-align: center;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        margin-right: 41px;
+        z-index: 4;
+    }
+}
+
+.header__burger {
+    display: none;
+
+    @media (max-width: $width-layout-tablet) {
+        display: block;
+        position: relative;
+        width: 30px;
+        height: 20px;
+        z-index: 4;
+        transition: transform 0.5s;
+
+        & span {
+            content: '';
+            background-color: black;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 1px;
+            top: 8px;
+        }
+
+        &::before {
+            content: '';
+            background-color: black;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 1px;
+            top: -2px;
+        }
+
+        &::after {
+            content: '';
+            background-color: black;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 1px;
+            bottom: 0;
+        }
+
+        &.active {
+            transform: rotate(-90deg);
+        }
+    }
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+
+    li {
+        margin-bottom: 0.5vh;
+
+        @media (max-width: $width-layout-tablet) {
+            margin: 0;
+            margin-top: 41px;
+        }
+
+        &:nth-child(1) {
+            @media (max-width: $width-layout-tablet) {
+                margin-top: 60px;
+            }
+        }
+    }
+
+    &__about-i {
+        @extend %header-nav-i-pholder;
+    }
+
+    &__pets-i {
+        @extend %header-nav-i-pholder;
+        color: $color-dark-l !important;
+        border-bottom: 3px solid $color-primary;
+    }
+
+    &__help-i {
+        @extend %header-nav-i-pholder;
+    }
+
+    &__contacts-i {
+        @extend %header-nav-i-pholder;
+        margin-right: 0;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        position: fixed;
+        width: 320px;
+        justify-content: center;
+        top: -16px;
+        right: -120%;
+        height: 100%;
+        flex-direction: column;
+        text-align: center;
+        background-color: $color-dark-3xl;
+        z-index: 3;
+        transition: all 0.5s;
+        visibility: hidden;
+
+        &.active {
+            visibility: visible;
+            right: 0;
+        }
+    }
+}
+
+.main {
+    @extend %layout-block;
+    height: $height-main;
+    background-color: $color-light-l;
+    margin-top: $height-header;
+
+    @media (max-width: $width-layout) {
+        height: 1733px;
+        align-items: flex-start;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        height: 1649px;
+        align-items: center;
+    }
+}
+
+.pets-wrapper {
+    @extend %wrapper-block;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 1162px;
+    margin-top: 80px;
+
+    @media (max-width: $width-layout) {
+        height: 1574px;
+        width: 708px;
+        justify-content: space-between;
+        margin-top: 81px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        height: 1564px;
+        width: 300px;
+        justify-content: space-between;
+        margin-top: 0px;
+        margin-left: 1px;
+    }
+}
+
+.pets-heading {
+    @include font-settings(Georgia, 35px, 130%, 0.06em);
+    color: $color-dark-l;
+    text-align: center;
+    margin: 0;
+
+    @media (max-width: $width-layout) {
+
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        @include font-settings(Georgia, 25px, 130%, 0.06em);
+    }
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 40px;
+    row-gap: 30px;
+
+    @media (max-width: $width-layout) {
+        grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 6px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        grid-template-columns: repeat(1, 1fr);
+        margin-top: 8px;
+    }
+}
+
+.pet-card {
+    @include pet-block();
+
+    @media (max-width: $width-layout) {
+        &:nth-child(7), &:nth-child(8) {
+            display: none;
+        }
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        &:nth-child(4), &:nth-child(5), &:nth-child(6) {
+            display: none;
+        }
+    }
+}
+
+.pets-nav {
+    display: flex;
+    column-gap: 20px;
+
+    &__btn {
+        @include typical-button();
+        @include font-settings(Georgia, 20px, 115%, 0.06em);
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        border: 2px solid $color-primary;
+        background-color: $color-light-l;
+
+        &_inactive {
+            color: $color-dark-s;
+            border-color: $color-dark-s;
+        }
+
+        &_current {
+            background-color: $color-primary;
+
+            &:hover {
+                background-color: $color-primary-light;
+                border-color: $color-primary-light;
+            }
+        }
+
+        &_active {
+            color: $color-dark-3xl;
+            background-color: $color-light-l;
+
+            &:hover {
+                background-color: $color-primary-light;
+                border-color: $color-primary-light;
+            }
+        }
+    }
+
+    @media(max-width: $width-layout-tablet) {
+        column-gap: 10px;
+    }
+}
+
+.footer {
+    @extend %layout-block;
+    background: url('../../assets/images/noise_transparent@2x.png'), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+    height: $height-footer;
+
+    @media (max-width: $width-layout) {
+       // background-image: url('../../assets/images/footer-gradient-background-768px.png');
+        height: 639px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+       // background-image: url('../../assets/images/footer-gradient-background-320px.png');
+        height: 809px;
+    }
+}
+
+.footer-content {
+    @extend %wrapper-block;
+    margin: 0;
+    align-items: center;
+
+    @media (max-width: $width-layout) {
+        justify-content: space-evenly;
+        margin-top: 11px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        justify-content: space-evenly;
+        text-align: center;
+        width: 305px;
+        margin-top: 17px;
+    }
+}
+
+.contacts {
+    @include footer-info-block;
+
+    &__email-link {
+        text-decoration: none;
+    }
+
+    &__email {
+        @include footer-info-block__element(email, 40px, 32px);
+        margin-left: 60px;
+    }
+
+    &__phone-link {
+        text-decoration: none;
+    }
+    
+    &__phone {
+        @include footer-info-block__element(phone, 40px, 32px);
+        margin-left: 60px;
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        height: 208px;
+    }
+}
+
+.location {
+    @include footer-info-block;
+
+    &__address-link {
+        text-decoration: none;
+    }
+
+    &__address {
+        @include footer-info-block__element(marker, 22px, 32px);
+        margin-left: 41px;
+        margin-right: 10px;
+
+        &::before {
+            transform: translate(-40px, 5px);
+        }
+
+        @media (max-width: $width-layout-tablet) {
+            margin-left: 42px;
+            margin-top: 1px;
+            text-align: left;
+        }
+    }
+
+    &_marker-position {
+        &::before {
+            transform: translate(-40px, -5px);
+        }
+
+        @media (max-width: $width-layout-tablet) {
+            margin-left: 20px;
+            margin-top: 0px;
+        }
+    }
+
+    @media (max-width: $width-layout-tablet) {
+        align-items: center;
+        height: 222px;
+        padding-top: 13px;
+
+        &__title {
+            width: 250px;
+        }
+    }
+}
+
+.footer-puppy {
+    align-self: flex-end;
+
+    @media (max-width: $width-layout-tablet) {
+        height: 268px;
+    }
+}
